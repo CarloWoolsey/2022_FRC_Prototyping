@@ -4,11 +4,10 @@
 
 package frc.robot.subsystems;
 import frc.robot.Constants;
-
-
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -16,7 +15,6 @@ import com.revrobotics.RelativeEncoder;
 public class Shooter extends SubsystemBase {
   private CANSparkMax lFlywheel = new CANSparkMax(Constants.MotorConstants.lFlywheelCANPort, MotorType.kBrushless);
   private CANSparkMax rFlywheel = new CANSparkMax(Constants.MotorConstants.rFlywheelCANPort, MotorType.kBrushless);
-
   private RelativeEncoder lFlywheelEncoder = lFlywheel.getEncoder();
   private RelativeEncoder rFlywhelEncoder = rFlywheel.getEncoder();
 
@@ -37,7 +35,7 @@ public class Shooter extends SubsystemBase {
   }
   public void runFlywheel(double speed){
     lFlywheel.set(speed);
-    rFlywheel.set(-speed);
+    rFlywheel.follow(lFlywheel, true);
   }
   public double getLFlywheelRPM(){
     return lFlywheelEncoder.getVelocity();
